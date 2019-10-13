@@ -110,7 +110,9 @@ ALTER TABLE PAIS
         cod_pais NOT NULL, 
         nombre NOT NULL
     );
-    ADD CONSTRAINT PK_PAIS PRIMARY KEY (cod_pais), 
+ALTER TABLE PAIS 
+    ADD CONSTRAINT PK_PAIS PRIMARY KEY (cod_pais);
+ALTER TABLE PAIS 
     ADD CONSTRAINT UK_PAIS_nombre UNIQUE (nombre);
 
 CREATE SEQUENCE SEQ_PAIS
@@ -141,7 +143,9 @@ ALTER TABLE PUESTO
         cod_puesto NOT NULL, 
         nombre NOT NULL
     );
-    ADD CONSTRAINT PK_PUESTO PRIMARY KEY (cod_puesto), 
+ALTER TABLE PUESTO 
+    ADD CONSTRAINT PK_PUESTO PRIMARY KEY (cod_puesto);
+ALTER TABLE PUESTO 
     ADD CONSTRAINT UK_PUESTO_nombre UNIQUE (nombre);
 
 CREATE SEQUENCE SEQ_PUESTO
@@ -172,7 +176,9 @@ ALTER TABLE DEPARTAMENTO
         cod_depto NOT NULL, 
         nombre NOT NULL
     );
-    ADD CONSTRAINT PK_DEPARTAMENTO PRIMARY KEY (cod_depto), 
+ALTER TABLE DEPARTAMENTO 
+    ADD CONSTRAINT PK_DEPARTAMENTO PRIMARY KEY (cod_depto);
+ALTER TABLE DEPARTAMENTO 
     ADD CONSTRAINT UK_DEPTO_nombre UNIQUE (nombre);
 
 CREATE SEQUENCE SEQ_DEPARTAMENTO
@@ -213,9 +219,12 @@ ALTER TABLE MIEMBRO
         PAIS_cod_pais NOT NULL, 
         PROFESION_cod_prof NOT NULL
     );
-    ADD CONSTRAINT PK_MIEMBRO PRIMARY KEY (cod_miembro), 
+ALTER TABLE MIEMBRO
+    ADD CONSTRAINT PK_MIEMBRO PRIMARY KEY (cod_miembro);
+ALTER TABLE MIEMBRO
     ADD CONSTRAINT FK_MIEMBRO_cod_pais FOREIGN KEY (PAIS_cod_pais) REFERENCES PAIS(cod_pais) 
-        ON DELETE CASCADE, 
+        ON DELETE CASCADE;
+ALTER TABLE MIEMBRO
     ADD CONSTRAINT FK_MIEMBRO_cod_profesion FOREIGN KEY (PROFESION_cod_prof) REFERENCES PROFESION(cod_prof) 
         ON DELETE CASCADE;
 
@@ -252,11 +261,15 @@ ALTER TABLE PUESTO_MIEMBRO
         DEPARTAMENTO_cod_depto NOT NULL,
         fecha_inicio NOT NULL
     );
-    ADD CONSTRAINT PK_PUESTO_MIEMBRO PRIMARY KEY (MIEMBRO_cod_miembro, PUESTO_cod_puesto, DEPARTAMENTO_cod_depto), 
+ALTER TABLE PUESTO_MIEMBRO 
+    ADD CONSTRAINT PK_PUESTO_MIEMBRO PRIMARY KEY (MIEMBRO_cod_miembro, PUESTO_cod_puesto, DEPARTAMENTO_cod_depto);
+ALTER TABLE PUESTO_MIEMBRO 
     ADD CONSTRAINT FK_PUESTO_MIEMBRO_cod_miembro FOREIGN KEY (MIEMBRO_cod_miembro) REFERENCES MIEMBRO(cod_miembro)
-        ON DELETE CASCADE, 
+        ON DELETE CASCADE; 
+ALTER TABLE PUESTO_MIEMBRO 
     ADD CONSTRAINT FK_PUESTO_MIEMBRO_cod_puesto FOREIGN KEY (PUESTO_cod_puesto) REFERENCES PUESTO(cod_puesto)
-        ON DELETE CASCADE, 
+        ON DELETE CASCADE;
+ALTER TABLE PUESTO_MIEMBRO 
     ADD CONSTRAINT fk_PUESTO_MIEMBRO_cod_depto FOREIGN KEY (DEPARTAMENTO_cod_depto) REFERENCES DEPARTAMENTO(cod_depto)
         ON DELETE CASCADE;
 
@@ -272,7 +285,9 @@ ALTER TABLE TIPO_MEDALLA
         cod_tipo NOT NULL, 
         medalla NOT NULL
     );
-    ADD CONSTRAINT PK_TIPO_MEDALLA_cod_tipo PRIMARY KEY (cod_tipo), 
+ALTER TABLE TIPO_MEDALLA 
+    ADD CONSTRAINT PK_TIPO_MEDALLA_cod_tipo PRIMARY KEY (cod_tipo);
+ALTER TABLE TIPO_MEDALLA 
     ADD CONSTRAINT UK_TIPO_MEDALLA_medalla UNIQUE (medalla);
 
 CREATE SEQUENCE SEQ_TIPO_MEDALLA
@@ -305,9 +320,12 @@ ALTER TABLE MEDALLERO
         cantidad_medallas NOT NULL,
         TIPO_MEDALLA_cod_tipo NOT NULL
     );
-    ADD CONSTRAINT PK_MEDALLERO PRIMARY KEY (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo), 
+ALTER TABLE MEDALLERO 
+    ADD CONSTRAINT PK_MEDALLERO PRIMARY KEY (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo);
+ALTER TABLE MEDALLERO
     ADD CONSTRAINT FK_MEDALLERO_cod_pais FOREIGN KEY (PAIS_cod_pais) REFERENCES PAIS(cod_pais)
-        ON DELETE CASCADE, 
+        ON DELETE CASCADE;
+ALTER TABLE MEDALLERO 
     ADD CONSTRAINT FK_MEDALLERO_cod_tipo FOREIGN KEY (TIPO_MEDALLA_cod_tipo) REFERENCES TIPO_MEDALLA(cod_tipo)
         ON DELETE CASCADE;
 
@@ -324,6 +342,7 @@ ALTER TABLE DISCIPLINA
         cod_disciplina NOT NULL, 
         nombre NOT NULL
     );
+ALTER TABLE DISCIPLINA 
     ADD CONSTRAINT PK_DISCIPLINA PRIMARY KEY (cod_disciplina);
 
 CREATE SEQUENCE SEQ_DISCIPLINA
@@ -351,7 +370,7 @@ CREATE TABLE ATLETA (
     apellido VARCHAR2(50),
     edad NUMBER,
     participaciones VARCHAR2(100),
-    DISCIPLINA_cod_disciplina NUMBER,
+    DISCIPLINA_cod_discip NUMBER,
     PAIS_cod_pais NUMBER
 );
 ALTER TABLE ATLETA 
@@ -361,12 +380,15 @@ ALTER TABLE ATLETA
         apellido NOT NULL, 
         edad NOT NULL, 
         participaciones NOT NULL, 
-        DISCIPLINA_cod_disciplina NOT NULL, 
+        DISCIPLINA_cod_discip NOT NULL, 
         PAIS_cod_pais NOT NULL
     );
-    ADD CONSTRAINT PK_ATLETA PRIMARY KEY (cod_atleta), 
-    ADD CONSTRAINT FK_ATLETA_cod_disciplina FOREIGN KEY (DISCIPLINA_cod_disciplina) REFERENCES DISCIPLINA(cod_disciplina)
-        ON DELETE CASCADE, 
+ALTER TABLE ATLETA 
+    ADD CONSTRAINT PK_ATLETA PRIMARY KEY (cod_atleta);
+ALTER TABLE ATLETA 
+    ADD CONSTRAINT FK_ATLETA_cod_disciplina FOREIGN KEY (DISCIPLINA_cod_discip) REFERENCES DISCIPLINA(cod_disciplina)
+        ON DELETE CASCADE;
+ALTER TABLE ATLETA 
     ADD CONSTRAINT FK_ATLETA_cod_pais FOREIGN KEY (PAIS_cod_pais) REFERENCES PAIS(cod_pais)
         ON DELETE CASCADE;
 
@@ -398,6 +420,7 @@ ALTER TABLE CATEGORIA
         cod_categoria NOT NULL, 
         categoria NOT NULL
     );
+ALTER TABLE CATEGORIA 
     ADD CONSTRAINT PK_CATEGORIA PRIMARY KEY (cod_categoria);
 
 CREATE SEQUENCE SEQ_CATEGORIA
@@ -428,6 +451,7 @@ ALTER TABLE TIPO_PARTICIPACION
         cod_participacion NOT NULL, 
         tipo_participacion NOT NULL
     );
+ALTER TABLE TIPO_PARTICIPACION 
     ADD CONSTRAINT PK_TIPO_PARTICIPACION PRIMARY KEY (cod_participacion);
 
 CREATE SEQUENCE SEQ_TIPO_PARTICIPACION
@@ -438,11 +462,11 @@ CREATE SEQUENCE SEQ_TIPO_PARTICIPACION
     NOCYCLE;
 
 CREATE TRIGGER TRG_TIPO_PARTICIPACION
-    BEFORE INSERT ON_TIPO_PARTICIPACION
+    BEFORE INSERT ON TIPO_PARTICIPACION
     FOR EACH ROW
 BEGIN 
     SELECT SEQ_TIPO_PARTICIPACION.NEXTVAL
-    INTO :new.cod_tipo
+    INTO :new.cod_participacion
     FROM dual;
 END;
 
@@ -454,8 +478,8 @@ CREATE TABLE EVENTO (
     fecha DATE,
     ubicacion VARCHAR2(50),
     hora DATE,
-    DISCIPLINA_cod_disciplina NUMBER,
-    TIPO_PARTICIPACION_cod_participacion NUMBER,
+    DISCIPLINA_cod_discip NUMBER,
+    TIPO_PARTICIPACION_cod_part NUMBER,
     CATEGORIA_cod_categoria NUMBER
 );
 ALTER TABLE EVENTO 
@@ -464,15 +488,19 @@ ALTER TABLE EVENTO
         fecha NOT NULL, 
         ubicacion NOT NULL, 
         hora NOT NULL, 
-        DISCIPLINA_cod_disciplina NOT NULL, 
-        TIPO_PARTICIPACION_cod_participacion NOT NULL, 
+        DISCIPLINA_cod_discip NOT NULL, 
+        TIPO_PARTICIPACION_cod_part NOT NULL, 
         CATEGORIA_cod_categoria NOT NULL
     );
-    ADD CONSTRAINT PK_EVENTO PRIMARY KEY (cod_evento), 
-    ADD CONSTRAINT FK_EVENTO_cod_disciplina FOREIGN KEY (DISCIPLINA_cod_disciplina) REFERENCES DISCIPLINA(cod_disciplina)
-        ON DELETE CASCADE, 
-    ADD CONSTRAINT FK_EVENTO_cod_participacion FOREIGN KEY (TIPO_PARTICIPACION_cod_participacion) REFERENCES TIPO_PARTICIPACION(cod_participacion)
-        ON DELETE CASCADE, 
+ALTER TABLE EVENTO 
+    ADD CONSTRAINT PK_EVENTO PRIMARY KEY (cod_evento);
+ALTER TABLE EVENTO 
+    ADD CONSTRAINT FK_EVENTO_cod_disciplina FOREIGN KEY (DISCIPLINA_cod_discip) REFERENCES DISCIPLINA(cod_disciplina)
+        ON DELETE CASCADE;
+ALTER TABLE EVENTO 
+    ADD CONSTRAINT FK_EVENTO_cod_participacion FOREIGN KEY (TIPO_PARTICIPACION_cod_part) REFERENCES TIPO_PARTICIPACION(cod_participacion)
+        ON DELETE CASCADE;
+ALTER TABLE EVENTO 
     ADD CONSTRAINT FK_EVENTO_cod_categoria FOREIGN KEY (CATEGORIA_cod_categoria) REFERENCES CATEGORIA(cod_categoria)
         ON DELETE CASCADE;
 
@@ -504,9 +532,12 @@ ALTER TABLE EVENTO_ATLETA
         ATLETA_cod_atleta NOT NULL, 
         EVENTO_cod_evento NOT NULL
     );
-    ADD CONSTRAINT PK_EVENTO_ATLETA PRIMARY KEY (ATLETA_cod_atleta, EVENTO_cod_evento), 
+ALTER TABLE EVENTO_ATLETA 
+    ADD CONSTRAINT PK_EVENTO_ATLETA PRIMARY KEY (ATLETA_cod_atleta, EVENTO_cod_evento);
+ALTER TABLE EVENTO_ATLETA 
     ADD CONSTRAINT FK_EVENTO_ATLETA_cod_atleta FOREIGN KEY (ATLETA_cod_atleta) REFERENCES ATLETA(cod_atleta)
-        ON DELETE CASCADE, 
+        ON DELETE CASCADE;
+ALTER TABLE EVENTO_ATLETA 
     ADD CONSTRAINT FK_EVENTO_ATLETA_cod_evento FOREIGN KEY (EVENTO_cod_evento) REFERENCES EVENTO(cod_evento)
         ON DELETE CASCADE;
 
@@ -522,6 +553,7 @@ ALTER TABLE TELEVISORA
         cod_televisora NOT NULL, 
         nombre NOT NULL
     );
+ALTER TABLE TELEVISORA 
     ADD CONSTRAINT PK_TELEVISORA PRIMARY KEY (cod_televisora);
 
 CREATE SEQUENCE SEQ_TELEVISORA
@@ -554,9 +586,12 @@ ALTER TABLE COSTO_EVENTO
         TELEVISORA_cod_televisora NOT NULL, 
         tarifa NOT NULL
     );
-    ADD CONSTRAINT PK_COSTO_EVENTO PRIMARY KEY (EVENTO_cod_evento, TELEVISORA_cod_televisora), 
+ALTER TABLE COSTO_EVENTO 
+    ADD CONSTRAINT PK_COSTO_EVENTO PRIMARY KEY (EVENTO_cod_evento, TELEVISORA_cod_televisora);
+ALTER TABLE COSTO_EVENTO 
     ADD CONSTRAINT FK_COSTO_EVENTO_cod_evento FOREIGN KEY (EVENTO_cod_evento) REFERENCES EVENTO(cod_evento)
-        ON DELETE CASCADE, 
+        ON DELETE CASCADE;
+ALTER TABLE COSTO_EVENTO 
     ADD CONSTRAINT FK_COSTO_EVENTO_cod_televisora FOREIGN KEY (TELEVISORA_cod_televisora) REFERENCES TELEVISORA(cod_televisora)
         ON DELETE CASCADE;
 
@@ -567,9 +602,11 @@ ALTER TABLE COSTO_EVENTO
  * SE AGREGA COLUMNA fecha CON FOMMATO TIMESTAMP PARA FECHA Y HORA
  * *************************************************************************/
 ALTER TABLE EVENTO 
-    DROP COLUMN fecha,
-    DROP COLUMN hora, 
-    ADD COLUMN fecha_hora TIMESTAMP NOT NULL;
+    DROP COLUMN fecha;
+ALTER TABLE EVENTO 
+    DROP COLUMN hora;
+ALTER TABLE EVENTO 
+    ADD fecha_hora TIMESTAMP NOT NULL;
 
 /* ************************************************************************
  * [3] VALIDAR RANGO DE FECHA EN TABLA EVENTO
@@ -609,13 +646,13 @@ CREATE OR REPLACE PROCEDURE SP_InsertEventos (
 )
 IS
 BEGIN
-    IF (in_fecha >= TIMESTAMP '2020-07-24 09:00:00' && in_fecha <= TIMESTAMP '2020-08-09 20:00:00' ) THEN
+    IF (in_fecha_hora >= '24-07-2020 09:00:00' AND in_fecha_hora <= '09-08-2020 20:00:00') THEN
         INSERT INTO 
             EVENTO(
                 fecha_hora, 
                 ubicacion, 
-                DISCIPLINA_cod_disciplina, 
-                TIPO_PARTICIPACION_cod_participacion, 
+                DISCIPLINA_cod_discip, 
+                TIPO_PARTICIPACION_cod_part, 
                 CATEGORIA_cod_categoria
             )
         VALUES (
@@ -637,17 +674,19 @@ END SP_InsertEventos;
  * *************************************************************************/
 CREATE TABLE SEDE (
     cod_sede NUMBER,
-    sede VARCHAR2(50),
+    sede VARCHAR2(50)
 );
 ALTER TABLE SEDE 
     MODIFY (
         cod_sede NOT NULL, 
         sede NOT NULL
     );
-    ALTER COLUMN CONSTRAINT PK_SEDE PRIMARY KEY (cod_sede);
+ALTER TABLE SEDE 
+    ADD CONSTRAINT PK_SEDE PRIMARY KEY (cod_sede);
 
 ALTER TABLE EVENTO 
-    ADD COLUMN ubicacion INT NOT NULL,
+    MODIFY (ubicacion NUMBER);
+ALTER TABLE EVENTO 
     ADD CONSTRAINT FK_EVENTO_ubicacion FOREIGN KEY (ubicacion) REFERENCES SEDE(cod_sede);
 
 CREATE SEQUENCE SEQ_SEDE
@@ -672,7 +711,7 @@ END;
  * SE DIÓ UN VALOR POR DEFECTO 0 A TELEFONO
  * *************************************************************************/
 ALTER TABLE MIEMBRO
-    ALTER COLUMN telefono SET DEFAULT 0;
+    MODIFY telefono DEFAULT 0;
 
 /* ************************************************************************
  * [6] SCRIPT PARA HACER LA INSERCION DE DATOS EN TABLAS REQUERIDAS
@@ -682,140 +721,99 @@ ALTER TABLE MIEMBRO
 /* *************************************************************
  * TABLA PROFESION                                             *
  * *************************************************************/
-INSERT INTO PROFESION (
-        nombre
-    )
-VALUES 
-    ('Médico'),
-    ('Arquitecto'),
-    ('Ingeniero'),
-    ('Secretaria'),
-    ('Auditor');
+INSERT ALL 
+    INTO PROFESION (nombre) VALUES ('Médico')
+    INTO PROFESION (nombre) VALUES ('Arquitecto')
+    INTO PROFESION (nombre) VALUES ('Ingeniero')
+    INTO PROFESION (nombre) VALUES ('Secretaria')
+    INTO PROFESION (nombre) VALUES ('Auditor')
+SELECT 1 FROM DUAL;
 SELECT * FROM PROFESION;
 
 /* *************************************************************
  * TABLA PAIS                                                  *
  * *************************************************************/
-INSERT INTO PAIS (
-        nombre
-    )
-VALUES 
-    ('Guatemala'),
-    ('Francia'),
-    ('Argentina'),
-    ('Alemania'),
-    ('Italia'),
-    ('Brasil'),
-    ('Estados Unidos');
+INSERT ALL
+    INTO PAIS (nombre) VALUES ('Guatemala')
+    INTO PAIS (nombre) VALUES ('Francia')
+    INTO PAIS (nombre) VALUES ('Argentina')
+    INTO PAIS (nombre) VALUES ('Alemania')
+    INTO PAIS (nombre) VALUES ('Italia')
+    INTO PAIS (nombre) VALUES ('Brasil')
+    INTO PAIS (nombre) VALUES ('Estados Unidos')
+SELECT 1 FROM DUAL;
 SELECT * FROM PAIS;
 
 /* *************************************************************
  * TABLA DISCIPLINA                                            *
  * *************************************************************/
-INSERT INTO DISCIPLINA (nombre, descripcion)
-VALUES
-    ('Atletismo', 'Saltos de longitud y triples, de altura y con pértiga o garrocha; las pruebas de lanzamiento de martillo, jabalina y disco.');
-INSERT INTO DISCIPLINA (nombre)
-VALUES
-    ('Bádminton');
-INSERT INTO DISCIPLINA (nombre)
-VALUES
-    ('Ciclismo');
-INSERT INTO DISCIPLINA (nombre, descripcion)
-VALUES
-    ('Judo', 'Es un arte marcial que se originó en Japón alrededor de 1880');
-INSERT INTO DISCIPLINA (nombre)
-VALUES
-    ('Lucha');
-INSERT INTO DISCIPLINA (nombre)
-VALUES
-    ('Tenis de Mesa');
-INSERT INTO DISCIPLINA (nombre)
-VALUES
-    ('Boxeo');
-INSERT INTO DISCIPLINA (nombre, descripcion)
-VALUES
-    ('Natación', 'Está presente como deporte en los Juegos desde la primera edición de la era moderna, en Atenas, Grecia, en 1896, donde se disputo en aguas abiertas.');
-INSERT INTO DISCIPLINA (nombre)
-VALUES
-    ('Esgrima');
-INSERT INTO DISCIPLINA (nombre)
-VALUES
-    ('Vela');
+INSERT ALL 
+    INTO DISCIPLINA (nombre, descripcion) VALUES ('Atletismo', 'Saltos de longitud y triples, de altura y con pértiga o garrocha; las pruebas de lanzamiento de martillo, jabalina y disco.')
+    INTO DISCIPLINA (nombre) VALUES ('Bádminton')
+    INTO DISCIPLINA (nombre) VALUES ('Ciclismo')
+    INTO DISCIPLINA (nombre, descripcion) VALUES ('Judo', 'Es un arte marcial que se originó en Japón alrededor de 1880')
+    INTO DISCIPLINA (nombre) VALUES ('Lucha')
+    INTO DISCIPLINA (nombre) VALUES ('Tenis de Mesa')
+    INTO DISCIPLINA (nombre) VALUES ('Boxeo')
+    INTO DISCIPLINA (nombre, descripcion) VALUES ('Natación', 'Está presente como deporte en los Juegos desde la primera edición de la era moderna, en Atenas, Grecia, en 1896, donde se disputo en aguas abiertas.')
+    INTO DISCIPLINA (nombre) VALUES ('Esgrima')
+    INTO DISCIPLINA (nombre) VALUES ('Vela')
+SELECT 1 FROM DUAL;    
 SELECT * FROM DISCIPLINA;
 
 /* *************************************************************
  * TABLA TIPO_MEDALLA                                          *
  * *************************************************************/
-INSERT INTO TIPO_MEDALLA (
-        medalla
-    )
-VALUES 
-    ('Oro'),
-    ('Plata'),
-    ('Bronce'),
-    ('Platino');
+INSERT ALL 
+    INTO TIPO_MEDALLA (medalla) VALUES ('Oro')
+    INTO TIPO_MEDALLA (medalla) VALUES ('Plata')
+    INTO TIPO_MEDALLA (medalla) VALUES ('Bronce')
+    INTO TIPO_MEDALLA (medalla) VALUES ('Platino')
+SELECT 1 FROM DUAL;
 SELECT * FROM TIPO_MEDALLA;
 
 /* *************************************************************
  * TABLA CATEGORIA                                             *
  * *************************************************************/
-INSERT INTO CATEGORIA (
-        categoria
-    )
-VALUES 
-    ('Clasificatorio'),
-    ('Eliminatorio'),
-    ('Final');
+INSERT ALL 
+    INTO CATEGORIA (categoria) VALUES ('Clasificatorio')
+    INTO CATEGORIA (categoria) VALUES ('Eliminatorio')
+    INTO CATEGORIA (categoria) VALUES ('Final')
+SELECT 1 FROM DUAL;
 SELECT * FROM CATEGORIA;
 
 /* *************************************************************
  * TABLA TIPO_PARTICIPACION                                    *
  * *************************************************************/
-INSERT INTO TIPO_PARTICIPACION (
-        tipo_participacion
-    )
-VALUES
-    ('Individual'),
-    ('Parejas'),
-    ('Equipos');
+INSERT ALL 
+    INTO TIPO_PARTICIPACION (tipo_participacion) VALUES ('Individual')
+    INTO TIPO_PARTICIPACION (tipo_participacion) VALUES('Parejas')
+    INTO TIPO_PARTICIPACION (tipo_participacion) VALUES('Equipos')
+SELECT 1 FROM DUAL;
 SELECT * FROM TIPO_PARTICIPACION;
 
 /* *************************************************************
  * TABLA SEDE                                                  *
  * *************************************************************/
-INSERT INTO SEDE (
-        sede
-    )
-VALUES 
-    ('Gimnasio Metropolitano de Tokio'),
-    ('Jardín del Palacio Imperial de Tokio'),
-    ('Gimnasio Nacional Yoyogi'),
-    ('Nippon Budokan'),
-    ('Estadio Olímpico');
+INSERT ALL 
+    INTO SEDE (sede) VALUES ('Gimnasio Metropolitano de Tokio')
+    INTO SEDE (sede) VALUES ('Jardín del Palacio Imperial de Tokio')
+    INTO SEDE (sede) VALUES ('Gimnasio Nacional Yoyogi')
+    INTO SEDE (sede) VALUES ('Nippon Budokan')
+    INTO SEDE (sede) VALUES ('Estadio Olímpico')
+SELECT 1 FROM DUAL;
 SELECT * FROM SEDE;
 
 /* *************************************************************
  * TABLA MIEMBRO                                               *
  * *************************************************************/
-INSERT INTO MIEMBRO (nombre, apellido, edad, residencia, PAIS_cod_pais, PROFESION_cod_prof)
-VALUES 
-    ('Scott', 'Mitchell', 32, '1092 Highland Drive Manitowoc, WI 54220', 7, 3);
-INSERT INTO MIEMBRO (nombre, apellido, edad, telefono, residencia, PAIS_cod_pais, PROFESION_cod_prof)
-VALUES 
-    ('Fanette', 'Poulin', 32, 25075853, '49, boulevard Aristide Briand 76120 LE GRAND-QUEVILLY', 2, 4);
-INSERT INTO MIEMBRO (nombre, apellido, edad, residencia, PAIS_cod_pais, PROFESION_cod_prof)
-VALUES 
-    ('Laura', 'Cunha Silva', 55, 'Rua Onze, 86 uberaba-MG', 6, 5);
-INSERT INTO MIEMBRO (nombre, apellido, edad, telefono, residencia, PAIS_cod_pais, PROFESION_cod_prof)
-VALUES 
-    ('Juan Jose', 'López', 38, 36985247, '26 Calle 4-10 zona 11', 1, 2);
-INSERT INTO MIEMBRO (nombre, apellido, edad, telefono, residencia, PAIS_cod_pais, PROFESION_cod_prof)
-VALUES 
-    ('Arcangela', 'Panicucci', 39, 391664921, 'Via Santa Teresa, 114 90010-Geraci Siculo PA', 5, 1);
-INSERT INTO MIEMBRO (nombre, apellido, edad, residencia, PAIS_cod_pais, PROFESION_cod_prof)
-VALUES 
-    ('Jeuel', 'Villalpando', 31, 'Acuña de Figueroa 6106 80101', 3, 5);
+INSERT INTO MIEMBRO (nombre, apellido, edad, residencia, PAIS_cod_pais, PROFESION_cod_prof) VALUES ('Scott', 'Mitchell', 32, '1092 Highland Drive Manitowoc, WI 54220', 7, 3)
+INSERT INTO MIEMBRO (nombre, apellido, edad, telefono, residencia, PAIS_cod_pais, PROFESION_cod_prof) VALUES ('Fanette', 'Poulin', 32, 25075853, '49, boulevard Aristide Briand 76120 LE GRAND-QUEVILLY', 2, 4)
+INSERT INTO MIEMBRO (nombre, apellido, edad, residencia, PAIS_cod_pais, PROFESION_cod_prof) VALUES ('Laura', 'Cunha Silva', 55, 'Rua Onze, 86 uberaba-MG', 6, 5)
+INSERT INTO MIEMBRO (nombre, apellido, edad, telefono, residencia, PAIS_cod_pais, PROFESION_cod_prof) VALUES ('Juan Jose', 'López', 38, 36985247, '26 Calle 4-10 zona 11', 1, 2)
+INSERT INTO MIEMBRO (nombre, apellido, edad, telefono, residencia, PAIS_cod_pais, PROFESION_cod_prof) VALUES ('Arcangela', 'Panicucci', 39, 391664921, 'Via Santa Teresa, 114 90010-Geraci Siculo PA', 5, 1)
+INSERT INTO MIEMBRO (nombre, apellido, edad, residencia, PAIS_cod_pais, PROFESION_cod_prof) VALUES ('Jeuel', 'Villalpando', 31, 'Acuña de Figueroa 6106 80101', 3, 5);
+
 SELECT m.nombre, m.apellido, m.edad, m.residencia, c.nombre AS pais, p.nombre AS profesion 
 FROM MIEMBRO m, PAIS c, PROFESION p 
 WHERE m.PAIS_cod_pais = c.cod_pais AND 
@@ -824,21 +822,17 @@ WHERE m.PAIS_cod_pais = c.cod_pais AND
 /* *************************************************************
  * TABLA MEDALLERO                                             *
  * *************************************************************/
-INSERT INTO MEDALLERO (
-        PAIS_cod_pais, 
-        TIPO_MEDALLA_cod_tipo, 
-        cantidad_medallas 
-    )
-VALUES 
-    ( 5, 1, 3),
-    ( 2, 1, 5),
-    ( 6, 3, 4),
-    ( 4, 4, 3),
-    ( 7, 3, 10),
-    ( 3, 2, 8),
-    ( 1, 1, 2),
-    ( 1, 4, 5),
-    ( 5, 2, 7);
+INSERT ALL 
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 5, 1, 3)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 2, 1, 5)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 6, 3, 4)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 4, 4, 3)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 7, 3, 10)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 3, 2, 8)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 1, 1, 2)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 1, 4, 5)
+    INTO MEDALLERO (PAIS_cod_pais, TIPO_MEDALLA_cod_tipo, cantidad_medallas ) VALUES ( 5, 2, 7)
+SELECT 1 FROM DUAL;
 SELECT p.nombre AS pais, m.cantidad_medallas, t.medalla
 FROM MEDALLERO m, PAIS p, TIPO_MEDALLA t 
 WHERE m.PAIS_cod_pais = p.cod_pais AND 
@@ -847,15 +841,15 @@ WHERE m.PAIS_cod_pais = p.cod_pais AND
 /* *************************************************************
  * TABLA EVENTO                                                *
  * *************************************************************/
-SELECT SP_InsertEventos('2020-07-24 11:00:00', 3, 2, 2, 1);
-SELECT SP_InsertEventos('2020-07-26 10:30:00', 1, 6, 1, 3);
-SELECT SP_InsertEventos('2020-07-30 18:45:00', 5, 7, 1, 2);
-SELECT SP_InsertEventos('2020-08-01 12:15:00', 2, 1, 1, 1);
-SELECT SP_InsertEventos('2020-08-08 19:35:00', 4, 10, 3, 1);
+CALL SP_InsertEventos('24-07-2020 11:00:00', 3, 2, 2, 1);
+CALL SP_InsertEventos('26-07-2020 10:30:00', 1, 6, 1, 3);
+CALL SP_InsertEventos('30-07-2020 18:45:00', 5, 7, 1, 2);
+CALL SP_InsertEventos('01-08-2020 12:15:00', 2, 1, 1, 1);
+CALL SP_InsertEventos('08-08-2020 19:35:00', 4, 10, 3, 1);
 SELECT e.fecha_hora, s.sede, d.nombre AS disciplina, t.tipo_participacion, c.categoria
 FROM EVENTO e, DISCIPLINA d, TIPO_PARTICIPACION t, CATEGORIA c, SEDE s 
-WHERE e.DISCIPLINA_cod_disciplina = d.cod_disciplina AND 
-      e.TIPO_PARTICIPACION_cod_participacion = t.cod_participacion AND 
+WHERE e.DISCIPLINA_cod_discip = d.cod_disciplina AND 
+      e.TIPO_PARTICIPACION_cod_part = t.cod_participacion AND 
       e.CATEGORIA_cod_categoria = c.cod_categoria AND 
       e.ubicacion = s.cod_sede;
 
@@ -887,19 +881,21 @@ ALTER TABLE ATLETA
 
 CREATE TABLE DISCIPLINA_ATLETA (
     ATLETA_cod_atleta INT,
-    DISCIPLINA_cod_disciplina INT,
+    DISCIPLINA_cod_discip INT
 );
 ALTER TABLE DISCIPLINA_ATLETA
-    ADD CONSTRAINT PK_DISCIPLINA_ATLETA (ATLETA_cod_atleta, DISCIPLINA_cod_disciplina), 
-    ADD CONSTRAINT FK_DISCIPLINA_ATLETA_cod_atleta FOREIGN KEY (ATLETA_cod_atleta) REFERENCES ATLETA(cod_atleta), 
-    ADD CONSTRAINT FK_DISCIPLINA_ATLETA_cod_disciplina FOREIGN KEY (DISCIPLINA_cod_disciplina) REFERENCES DISCIPLINA(cod_disciplina);
+    ADD CONSTRAINT PK_DISC_ATLETA PRIMARY KEY (ATLETA_cod_atleta, DISCIPLINA_cod_discip);
+ALTER TABLE DISCIPLINA_ATLETA
+    ADD CONSTRAINT FK_DISC_ATLETA_cod_atleta FOREIGN KEY (ATLETA_cod_atleta) REFERENCES ATLETA(cod_atleta);
+ALTER TABLE DISCIPLINA_ATLETA
+    ADD CONSTRAINT FK_DISC_ATLETA_cod_disciplina FOREIGN KEY (DISCIPLINA_cod_discip) REFERENCES DISCIPLINA(cod_disciplina);
 
 /* ************************************************************************
  * [9] CAMBIAR DE INT A DECIMAL EN COSTO_EVENTO tarifa
  * ************************************************************************
  * *************************************************************************/
 ALTER TABLE COSTO_EVENTO 
-    ALTER COLUMN tarifa TYPE DECIMAL(18,2);
+    MODIFY (tarifa DECIMAL(18,2));
 
 /* ************************************************************************
  * [10] BORRAR DE TABLA TIPO_MEDALLA EL CODIGO 4
@@ -947,24 +943,24 @@ WHERE nombre = 'Scott' AND
  * ************************************************************************
  * *************************************************************************/
 ALTER TABLE ATLETA 
-    ADD COLUMN fotografia VARCHAR2(100);
+    ADD fotografia VARCHAR2(100);
 
 /* ************************************************************************
  * [15] VALIDAR EDAD DE ATLETAS SEA MENOR A 25 AÑOS
  * ************************************************************************
  * *************************************************************************/
- CREATE OR REPLACE PROCEDURE SP_InsertAtleta (
+CREATE OR REPLACE PROCEDURE SP_InsertAtleta (
     in_nombre IN VARCHAR2,
     in_apellido IN VARCHAR2,
     in_edad IN NUMBER, 
     in_fotografia IN VARCHAR2, 
     in_participaciones IN VARCHAR2,
-    in_cod_disciplina IN NUMBER
+    in_cod_disciplina IN NUMBER,
     in_cod_pais NUMBER
 )
 IS
 BEGIN
-    IF (edad < 25) THEN
+    IF (in_edad < 25) THEN
         INSERT INTO ATLETA (
             nombre,
             apellido,
@@ -984,11 +980,11 @@ BEGIN
 
         INSERT INTO DISCIPLINA_ATLETA (
             ATLETA_cod_atleta, 
-            DISCIPLINA_cod_disciplina
+            DISCIPLINA_cod_discip
         )
         VALUES (
             SEQ_ATLETA.CURRVAL, 
             in_cod_disciplina
         );
-    END IF
+    END IF;
 END;
