@@ -69,7 +69,7 @@ CREATE DATABASE OLYMPIC_DB
  * TABLA PROFESION                                             *
  * *************************************************************/
 CREATE TABLE PROFESION (
-    cod_prof NUMBER,
+    cod_prof INT,
     nombre VARCHAR2(50)
 );
 ALTER TABLE PROFESION
@@ -102,7 +102,7 @@ END;
  * TABLA PAIS                                                  *
  * *************************************************************/
 CREATE TABLE PAIS (
-    cod_pais NUMBER,
+    cod_pais INT,
     nombre VARCHAR2(50)
 );
 ALTER TABLE PAIS 
@@ -135,7 +135,7 @@ END;
  * TABLA PUESTO                                                *
  * *************************************************************/
 CREATE TABLE PUESTO (
-    cod_puesto NUMBER,
+    cod_puesto INT,
     nombre VARCHAR2(50)
 );
 ALTER TABLE PUESTO 
@@ -168,7 +168,7 @@ END;
  * TABLA DEPARTAMENTO                                          *
  * *************************************************************/
 CREATE TABLE DEPARTAMENTO (
-    cod_depto NUMBER,
+    cod_depto INT,
     nombre VARCHAR2(50)
 );
 ALTER TABLE DEPARTAMENTO 
@@ -201,14 +201,14 @@ END;
  * TABLA MIEMBRO                                               *
  * *************************************************************/
 CREATE TABLE MIEMBRO (
-    cod_miembro NUMBER,
+    cod_miembro INT,
     nombre VARCHAR2(100),
     apellido VARCHAR2(100),
-    edad NUMBER,
-    telefono NUMBER,
+    edad INT,
+    telefono INT,
     residencia VARCHAR2(100),
-    PAIS_cod_pais NUMBER,
-    PROFESION_cod_prof NUMBER
+    PAIS_cod_pais INT,
+    PROFESION_cod_prof INT
 );
 ALTER TABLE MIEMBRO
     MODIFY (
@@ -248,9 +248,9 @@ END;
  * TABLA PUESTO_MIEMBRO                                        *
  * *************************************************************/
 CREATE TABLE PUESTO_MIEMBRO (
-    MIEMBRO_cod_miembro NUMBER NOT NULL,
-    PUESTO_cod_puesto NUMBER NOT NULL,
-    DEPARTAMENTO_cod_depto NUMBER NOT NULL,
+    MIEMBRO_cod_miembro INT NOT NULL,
+    PUESTO_cod_puesto INT NOT NULL,
+    DEPARTAMENTO_cod_depto INT NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE
 );
@@ -277,7 +277,7 @@ ALTER TABLE PUESTO_MIEMBRO
  * TABLA TIPO_MEDALLA                                          *
  * *************************************************************/
 CREATE TABLE TIPO_MEDALLA (
-    cod_tipo NUMBER NOT NULL,
+    cod_tipo INT NOT NULL,
     medalla VARCHAR2(20) NOT NULL
 );
 ALTER TABLE TIPO_MEDALLA 
@@ -310,9 +310,9 @@ END;
  * TABLA MEDALLERO                                             *
  * *************************************************************/
 CREATE TABLE MEDALLERO (
-    PAIS_cod_pais NUMBER,
-    cantidad_medallas NUMBER,
-    TIPO_MEDALLA_cod_tipo NUMBER
+    PAIS_cod_pais INT,
+    cantidad_medallas INT,
+    TIPO_MEDALLA_cod_tipo INT
 );
 ALTER TABLE MEDALLERO 
     MODIFY (
@@ -333,7 +333,7 @@ ALTER TABLE MEDALLERO
  * TABLA DISCIPLINA                                            *
  * *************************************************************/
 CREATE TABLE DISCIPLINA (
-    cod_disciplina NUMBER,
+    cod_disciplina INT,
     nombre VARCHAR2(50),
     descripcion VARCHAR2(150)
 );
@@ -365,13 +365,13 @@ END;
  * TABLA ATLETA                                                *
  * *************************************************************/
 CREATE TABLE ATLETA (
-    cod_atleta NUMBER,
+    cod_atleta INT,
     nombre VARCHAR2(50),
     apellido VARCHAR2(50),
-    edad NUMBER,
+    edad INT,
     participaciones VARCHAR2(100),
-    DISCIPLINA_cod_discip NUMBER,
-    PAIS_cod_pais NUMBER
+    DISCIPLINA_cod_discip INT,
+    PAIS_cod_pais INT
 );
 ALTER TABLE ATLETA 
     MODIFY (
@@ -412,7 +412,7 @@ END;
  * TABLA CATEGORIA                                             *
  * *************************************************************/
 CREATE TABLE CATEGORIA (
-    cod_categoria NUMBER,
+    cod_categoria INT,
     categoria VARCHAR2(50)
 );
 ALTER TABLE CATEGORIA 
@@ -443,7 +443,7 @@ END;
  * TABLA TIPO_PARTICIPACION                                    *
  * *************************************************************/
 CREATE TABLE TIPO_PARTICIPACION (
-    cod_participacion NUMBER,
+    cod_participacion INT,
     tipo_participacion VARCHAR2(100)
 );
 ALTER TABLE TIPO_PARTICIPACION 
@@ -474,13 +474,13 @@ END;
  * TABLA EVENTO                                                *
  * *************************************************************/
 CREATE TABLE EVENTO (
-    cod_evento NUMBER,
+    cod_evento INT,
     fecha DATE,
     ubicacion VARCHAR2(50),
     hora DATE,
-    DISCIPLINA_cod_discip NUMBER,
-    TIPO_PARTICIPACION_cod_part NUMBER,
-    CATEGORIA_cod_categoria NUMBER
+    DISCIPLINA_cod_discip INT,
+    TIPO_PARTICIPACION_cod_part INT,
+    CATEGORIA_cod_categoria INT
 );
 ALTER TABLE EVENTO 
     MODIFY (
@@ -524,8 +524,8 @@ END;
  * TABLA EVENTO_ATLETA                                         *
  * *************************************************************/
 CREATE TABLE EVENTO_ATLETA (
-    ATLETA_cod_atleta NUMBER,
-    EVENTO_cod_evento NUMBER
+    ATLETA_cod_atleta INT,
+    EVENTO_cod_evento INT
 );
 ALTER TABLE EVENTO_ATLETA 
     MODIFY (
@@ -545,7 +545,7 @@ ALTER TABLE EVENTO_ATLETA
  * TABLA TELEVISORA                                            *
  * *************************************************************/
 CREATE TABLE TELEVISORA (
-    cod_televisora NUMBER,
+    cod_televisora INT,
     nombre VARCHAR2(50)
 );
 ALTER TABLE TELEVISORA 
@@ -576,8 +576,8 @@ END;
  * TABLA COSTO_EVENTO                                          *
  * *************************************************************/
 CREATE TABLE COSTO_EVENTO (
-    EVENTO_cod_evento NUMBER,
-    TELEVISORA_cod_televisora NUMBER,
+    EVENTO_cod_evento INT,
+    TELEVISORA_cod_televisora INT,
     tarifa NUMERIC
 );
 ALTER TABLE COSTO_EVENTO 
@@ -640,13 +640,13 @@ ALTER TABLE EVENTO
 CREATE OR REPLACE PROCEDURE SP_InsertEventos (
     in_fecha_hora IN TIMESTAMP,
     in_ubicacion IN VARCHAR2,
-    in_cod_disciplina IN NUMBER,
-    in_cod_participacion IN NUMBER,
-    in_cod_categoria IN NUMBER
+    in_cod_disciplina IN INT,
+    in_cod_participacion IN INT,
+    in_cod_categoria IN INT
 )
 IS
 BEGIN
-    IF (in_fecha_hora >= '24-07-2020 09:00:00' AND in_fecha_hora <= '09-08-2020 20:00:00') THEN
+    IF (in_fecha >= TIMESTAMP '2020-07-24 09:00:00' AND in_fecha <= TIMESTAMP '2020-08-09 20:00:00') THEN
         INSERT INTO 
             EVENTO(
                 fecha_hora, 
@@ -673,7 +673,7 @@ END SP_InsertEventos;
  * REFERENCIAR DICHA COLUMNA A TABLA SEDE
  * *************************************************************************/
 CREATE TABLE SEDE (
-    cod_sede NUMBER,
+    cod_sede INT,
     sede VARCHAR2(50)
 );
 ALTER TABLE SEDE 
@@ -685,7 +685,7 @@ ALTER TABLE SEDE
     ADD CONSTRAINT PK_SEDE PRIMARY KEY (cod_sede);
 
 ALTER TABLE EVENTO 
-    MODIFY (ubicacion NUMBER);
+    MODIFY (ubicacion INT);
 ALTER TABLE EVENTO 
     ADD CONSTRAINT FK_EVENTO_ubicacion FOREIGN KEY (ubicacion) REFERENCES SEDE(cod_sede);
 
@@ -846,6 +846,12 @@ CALL SP_InsertEventos('26-07-2020 10:30:00', 1, 6, 1, 3);
 CALL SP_InsertEventos('30-07-2020 18:45:00', 5, 7, 1, 2);
 CALL SP_InsertEventos('01-08-2020 12:15:00', 2, 1, 1, 1);
 CALL SP_InsertEventos('08-08-2020 19:35:00', 4, 10, 3, 1);
+/* BEFORE DATE */
+CALL SP_InsertEventos('08-08-2020 18:35:00', 4, 10, 3, 1);
+CALL SP_InsertEventos('07-08-2020 19:35:00', 4, 10, 3, 1);
+/* AFTER DATE */
+CALL SP_InsertEventos('08-08-2020 20:35:00', 4, 10, 3, 1);
+CALL SP_InsertEventos('09-08-2020 19:35:00', 4, 10, 3, 1);
 SELECT e.fecha_hora, s.sede, d.nombre AS disciplina, t.tipo_participacion, c.categoria
 FROM EVENTO e, DISCIPLINA d, TIPO_PARTICIPACION t, CATEGORIA c, SEDE s 
 WHERE e.DISCIPLINA_cod_discip = d.cod_disciplina AND 
@@ -952,11 +958,11 @@ ALTER TABLE ATLETA
 CREATE OR REPLACE PROCEDURE SP_InsertAtleta (
     in_nombre IN VARCHAR2,
     in_apellido IN VARCHAR2,
-    in_edad IN NUMBER, 
+    in_edad IN INT, 
     in_fotografia IN VARCHAR2, 
     in_participaciones IN VARCHAR2,
-    in_cod_disciplina IN NUMBER,
-    in_cod_pais NUMBER
+    in_cod_disciplina IN INT,
+    in_cod_pais INT
 )
 IS
 BEGIN
